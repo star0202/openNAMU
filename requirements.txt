@@ -9,3 +9,6 @@ whoosh
 diff-match-patch
 
 pysha3; python_version < "3.6"
+
+black==23.3.0
+isort==5.12.0

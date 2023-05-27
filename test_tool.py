@@ -1,7 +1,7 @@
 # Load
-import time
 import os
 import platform
+import time
 import urllib
 import zipfile
 
@@ -9,7 +9,7 @@ from route.tool.func import *
 
 data_db_set = class_check_json()
 
-db_data_get(data_db_set['type'])
+db_data_get(data_db_set["type"])
 do_db_set(data_db_set)
 
 load_db = get_db_connect()
@@ -17,23 +17,23 @@ load_db = get_db_connect()
 conn = load_db.__enter__()
 curs = conn.cursor()
 
-print('----')
-print('1. Add virtual doc')
+print("----")
+print("1. Add virtual doc")
 
-print('----')
-what_i_do = input('Select : ')
+print("----")
+what_i_do = input("Select : ")
 
-if what_i_do == '1':
-    print('----')
-    doc_count = int(input('Count : '))
-    
+if what_i_do == "1":
+    print("----")
+    doc_count = int(input("Count : "))
+
     for for_a in range(doc_count):
-        name = 'test_' + str(for_a)
-        content = '''[include(틀:주요 문서)]
+        name = "test_" + str(for_a)
+        content = """[include(틀:주요 문서)]
 [include(틀:위키 엔진)]
 
 ||||<tablealign=right><tablebordercolor=#008679><#008679> {{{#white {{{+2 오픈나무
-''\'openNAMU\'''}}}}}} ||
+''\'openNAMU'''}}}}}} ||
 |||| [[파일:오픈나무 로고.png|width=200px]] ||
 ||<colbgcolor=#008679><colcolor=white> 현재 상태 || ~~계속~~ 개발 중 ||
 |||| 최신 빌드 ||
@@ -79,28 +79,26 @@ if what_i_do == '1':
  * [[/개발 현황]]
  * [[/반성]]
 
-[[분류:오픈나무]]'''
+[[분류:오픈나무]]"""
         today = get_time()
-        send = 'test'
-        ip = '127.0.0.1'
-        leng = '0'
+        send = "test"
+        ip = "127.0.0.1"
+        leng = "0"
 
-        curs.execute(db_change("insert into data (title, data) values (?, ?)"), [name, content])
+        curs.execute(
+            db_change("insert into data (title, data) values (?, ?)"), [name, content]
+        )
         print(for_a)
 
-        test_case = [[
-            for_b,
-            name,
-            content,
-            today,
-            ip,
-            send,
-            leng,
-            ''
-        ] for for_b in range(1, 151)]
-        curs.executemany(db_change(
-            "insert into history (id, title, data, date, ip, send, leng, hide, type) " + \
-            "values (?, ?, ?, ?, ?, ?, ?, '', ?)"
-        ), test_case)
+        test_case = [
+            [for_b, name, content, today, ip, send, leng, ""] for for_b in range(1, 151)
+        ]
+        curs.executemany(
+            db_change(
+                "insert into history (id, title, data, date, ip, send, leng, hide, type) "
+                + "values (?, ?, ?, ?, ?, ?, ?, '', ?)"
+            ),
+            test_case,
+        )
 
     conn.commit()

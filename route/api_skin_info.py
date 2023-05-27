@@ -1,14 +1,15 @@
 from .tool.func import *
 
-def api_skin_info(name = ''):
+
+def api_skin_info(name=""):
     with get_db_connect() as conn:
         curs = conn.cursor()
-        name = skin_check() if name == '' else './views/' + name + '/index.html'
+        name = skin_check() if name == "" else "./views/" + name + "/index.html"
 
-        if not flask.request.args.get('all', None):
+        if not flask.request.args.get("all", None):
             json_address = re.sub(r"(((?!\.|\/).)+)\.html$", "info.json", name)
             try:
-                json_data = json.loads(open(json_address, encoding='utf8').read())
+                json_data = json.loads(open(json_address, encoding="utf8").read())
             except:
                 json_data = None
 
@@ -19,21 +20,25 @@ def api_skin_info(name = ''):
         else:
             a_data = {}
             d_link_data = {
-                "ACME" : "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-ACME/master/info.json",
-                "Liberty" : "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-Liberty/master/info.json",
-                "Before Namu" : "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-Before_Namu/master/info.json"
+                "ACME": "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-ACME/master/info.json",
+                "Liberty": "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-Liberty/master/info.json",
+                "Before Namu": "https://raw.githubusercontent.com/openNAMU/openNAMU-Skin-Before_Namu/master/info.json",
             }
 
             for i in load_skin(skin_check(1), 1):
-                json_address = re.sub(r"(((?!\.|\/).)+)\.html$", "info.json", './views/' + i + '/index.html')
+                json_address = re.sub(
+                    r"(((?!\.|\/).)+)\.html$",
+                    "info.json",
+                    "./views/" + i + "/index.html",
+                )
                 try:
-                    json_data = json.loads(open(json_address, encoding='utf8').read())
+                    json_data = json.loads(open(json_address, encoding="utf8").read())
                 except:
                     json_data = None
 
                 if json_data:
                     if i == skin_check(1):
-                        json_data = {**json_data, **{ "main" : "true" }}
+                        json_data = {**json_data, **{"main": "true"}}
 
                     if "info_link" in json_data:
                         info_link = json_data["info_link"]
@@ -55,11 +60,15 @@ def api_skin_info(name = ''):
                                 get_data = {}
 
                             if "skin_ver" in get_data:
-                                json_data = {**json_data, **{ "lastest_version" : {
-                                    "skin_ver" : get_data["skin_ver"]
-                                }}}
+                                json_data = {
+                                    **json_data,
+                                    **{
+                                        "lastest_version": {
+                                            "skin_ver": get_data["skin_ver"]
+                                        }
+                                    },
+                                }
 
-
-                    a_data = {**a_data, **{ i : json_data }}
+                    a_data = {**a_data, **{i: json_data}}
 
             return flask.jsonify(a_data)
