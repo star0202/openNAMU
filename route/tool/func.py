@@ -10,6 +10,18 @@ import random
 import smtplib
 import sys
 
+import flask
+import pymysql
+import requests
+
+from .func_render import class_do_render
+
+# Init-Load
+from .func_tool import *
+
+if sys.version_info < (3, 6):
+    import sha3
+
 # Init-Version
 with open("version.json", encoding="utf8") as file_data:
     version_list = json.loads(file_data.read())
@@ -66,22 +78,6 @@ else:
     print("PIP check pass")
 
 print("----")
-
-import flask
-import pymysql
-import requests
-import waitress
-import werkzeug.debug
-import werkzeug.routing
-from diff_match_patch import diff_match_patch
-
-from .func_render import class_do_render
-
-# Init-Load
-from .func_tool import *
-
-if sys.version_info < (3, 6):
-    import sha3
 
 # Init-Global
 global_lang = {}
