@@ -1,10 +1,4 @@
 # Load
-import os
-import platform
-import time
-import urllib
-import zipfile
-
 from route.tool.func import *
 
 data_db_set = class_check_json()

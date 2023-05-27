@@ -4,16 +4,11 @@ import email.mime.text
 import email.utils
 import ipaddress
 import json
-import logging
 import os
 import platform
 import random
-import shutil
 import smtplib
 import sys
-import typing
-import urllib.request
-import zipfile
 
 # Init-Version
 with open("version.json", encoding="utf8") as file_data:
